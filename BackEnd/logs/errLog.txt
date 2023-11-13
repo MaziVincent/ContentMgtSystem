@@ -1,0 +1,2 @@
+31082023	11:47:42	38c22d7c-24d3-431c-b386-ba08768115c0	Error : Not allowed by CORS
+09092023	09:38:41	97b32c2d-f58a-40ce-b6af-1978c925f026	TypeError : res.status.json is not a function
