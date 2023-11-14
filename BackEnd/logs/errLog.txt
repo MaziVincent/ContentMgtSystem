@@ -1,2 +1,8 @@
 31082023	11:47:42	38c22d7c-24d3-431c-b386-ba08768115c0	Error : Not allowed by CORS
 09092023	09:38:41	97b32c2d-f58a-40ce-b6af-1978c925f026	TypeError : res.status.json is not a function
+14112023	02:49:32	273d56ce-01ed-4676-9d99-6fcb58ed2d59	Error : Not allowed by CORS
+14112023	02:49:34	3f375bbe-8204-496b-9ebe-c35796796fde	Error : Not allowed by CORS
+14112023	02:50:53	5cb6d02a-0c99-4c20-9f75-65c9800d199a	Error : Not allowed by CORS
+14112023	02:52:37	dadb430e-fba9-4589-9a30-3521fb6653e7	Error : Not allowed by CORS
+14112023	02:52:53	475ba9fb-bbc6-418c-9c05-edf1be1c2c0e	Error : Not allowed by CORS
+14112023	02:55:50	7bd27015-c551-4868-8c0c-9ff5f82abcc6	Error : Not allowed by CORS
