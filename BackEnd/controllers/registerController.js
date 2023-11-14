@@ -1,23 +1,18 @@
 
 
 
-// const usersDB = {
-    
-//     users : require('../models/users.json'),
-//     setUsers : function (data){this.users = data}
-// }
 
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
-    const {user, password} = req.body;
+    const {firstname, lastname, email, password} = req.body;
 
-    if(!user || !password){
-        return res.status(400).json({'message':'Username and password required'});
+    if(!email || !password || !firstname || !lastname ){
+        return res.status(400).json({'message':'Username and password and full name required'});
 
     }
-    const duplicate = await User.findOne({username : user }).exec();
+    const duplicate = await User.findOne({email : email }).exec();
     if(duplicate) return res.sendStatus(409); //conflict
 
     try{
@@ -27,12 +22,16 @@ const handleNewUser = async (req, res) => {
          //create and store new user
 
         const result = await User.create({
-            'username':user, 
-            'password':hashedPwd
+            
+            'firstname':firstname,
+            'lastname':lastname,
+            'email':email, 
+            'password':hashedPwd,
+            'roles': {User:'User', Student:'Student'}
         });
        
         console.log(result);
-        res.status(201).json({'success' :`new user ${user} created sucessfully`})
+        res.status(201).json({'success' :`new User created sucessfully`})
     }catch(err){
 
         res.status(500).json({'message': err.message})

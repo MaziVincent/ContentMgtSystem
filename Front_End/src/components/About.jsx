@@ -137,25 +137,7 @@ const About = () => {
         </div>
     </section>
 
-    <div className="contnet dark:bg-gray-900">
-        <div className=" flex p-8 items-center flex-col md:flex-row">
-            <div className=" flex-1 flex justify-center">
-                <img className='h-72' src={Contentsvg} alt="" />
-            </div>
-            <div className=" flex-1 pt-8 md:mt-0 text-center">
-                <h2 className=' mb-4 font-bold text-2xl dark:text-gray-300'>Want to contact us?</h2>
-                <p className=' pb-8 max-w-md mx-auto text-gray-500 dark:text-gray-400'>
-                <span>Connect with our friendly community on discord, a chat and networking platform or </span>   
-                <Link className=' underline hover:text-gray-950 dark:hover:text-gray-300 hover:no-underline'>
-                    send us an email.
-                </Link>
-                </p>
-                <Link className=' px-4 text-gray-700 dark:text-gray-300 font-medium border border-gray-200 py-3 rounded-lg'>
-                    Chat on Discord
-                </Link>
-            </div>
-        </div>
-    </div>
+    
     </>
   )
 }

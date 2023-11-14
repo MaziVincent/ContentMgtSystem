@@ -5,10 +5,8 @@
 const User = require('../models/User')
 
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const fsPromises = require('fs').promises;
 
-const path = require('path');
+
 
 
 const handleLogout = async (req, res) => {
@@ -24,7 +22,7 @@ const handleLogout = async (req, res) => {
     const foundUser = await User.findOne({refreshToken}).exec();
     if(!foundUser){
 
-        res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None', secure:true});
+        res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None'});
         return res.sendStatus(204) // no content
     } 
 
@@ -35,7 +33,7 @@ const handleLogout = async (req, res) => {
     console.log(result);
     
 
-    res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None', secure:true});
+    res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None'});
     res.sendStatus(204);
 
 }

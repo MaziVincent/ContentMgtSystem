@@ -5,6 +5,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 
 
 const Login = () => {
+
+    const submit = () => {
+
+        
+    }
   return (
     <div className=' bg-gray-50 dark:bg-gray-900 min-h-screen'>
       <div className="contaoner mx-auto max-w-7xl py-14 px-4">
@@ -27,7 +32,7 @@ const Login = () => {
                             <div >
                                 <label className=" block text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="user_email">Email address</label>
                                 <div className="input mt-2 relative rounded-md shadow-sm">
-                                    <input className=' dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600' required='required' type="email" />
+                                    <input placeholder='Email Address' className=' dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600' required='required' type="email" />
                                 </div>
                                 <div className=" mt-2 text-sm text-red-600 hidden"></div>
                             </div>
@@ -35,7 +40,7 @@ const Login = () => {
                             <div className="">
                                 <label className=' block text-sm font-medium text-gray-700 dark:text-gray-300' htmlFor="password">Password</label>
                                 <div className="input mt-2 relative rounded-md shadow-sm">
-                                    <input className=' dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600' required='required' type="password" />
+                                    <input placeholder='*********' className=' dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600' required='required' type="password" />
                                 </div>
 
                                 <div className=" mt-2 text-sm text-red-600 hidden"></div>
@@ -54,7 +59,7 @@ const Login = () => {
                             </div>
 
                             <div className="">
-                                <input className=' border rounded-md border-gray-300 bg-teal-800 text-white w-full py-2 px-2 text-sm' type="submit" value="Sign in" />
+                                <input className=' cursor-pointer border rounded-md border-gray-300 bg-teal-800 text-white w-full py-2 px-2 text-sm' type="submit" value="Sign in" />
                             </div>
                         </div>
                     </form>

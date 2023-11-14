@@ -6,14 +6,14 @@ const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
 
-    const {user, password} = req.body;
+    const {email, password} = req.body;
 
-    if(!user || !password){
+    if(!email || !password){
         return res.status(400).json({'message':'Username and password required'});
 
     }
 
-    const foundUser = await User.findOne({username:user}).exec();
+    const foundUser = await User.findOne({email:email}).exec();
     if(!foundUser) return res.sendStatus(401) // unAuthorized
 
     //evaluate password
@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
     const accessToken = jwt.sign(
         {
             "UserInfo" : {
-                "username" : foundUser.username,
+                "email" : foundUser.email,
                 "roles" : roles
             }
         },
@@ -36,7 +36,7 @@ const handleLogin = async (req, res) => {
     );
 
     const refreshToken = jwt.sign(
-        {"username" : foundUser.username},
+        {"email" : foundUser.email},
         process.env.REFRESH_TOKEN_SECRET,
         {expiresIn:'1d'}
     );
@@ -46,7 +46,7 @@ const handleLogin = async (req, res) => {
    const result = await foundUser.save();
    console.log(result)
 
-    res.cookie('refreshToken', refreshToken, {httpOnly:true, sameSite:'None', secure:true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie('refreshToken', refreshToken, {httpOnly:true, sameSite:'None',  maxAge: 24 * 60 * 60 * 1000 });
     
     res.json({accessToken})
 }

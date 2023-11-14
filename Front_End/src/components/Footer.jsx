@@ -14,15 +14,7 @@ const Footer = () => {
     <>
     
     <footer className=" dark:bg-gray-900 w-full flex flex-col items-center shadow-lg">
-            <div className=" pt-4">
-                <h1 className=" text-center pb-4 font-bold dark:text-gray-300">Support Us!</h1>
-                <h2 className=" font-normal px-4 dark:text-gray-300">The CodeCraftHub is funded by the community. Join us in empowering learners around the globe by supporting The CodeCraftHub!</h2>
-            </div>
-            <Link className=" flex gap-2 p-6">
-                <button className=" border py-3 px-4 rounded-lg dark:text-gray-300">Learn more</button>
-                <button className=" border py-3 px-4 rounded-lg bg-teal-700 hover:bg-teal-800 hover:transition-all text-white">Donate Now <TrendingFlatOutlinedIcon /> </button>
-            </Link>
-
+           
             <div className=" w-full flex flex-wrap justify-between items-center gap-4 p-6 border-b border-slate-950">
                <div className=" flex flex-col  gap-4 max-lg:w-full pb-6">
                     <Link className=" flex gap-2 items-center"> 

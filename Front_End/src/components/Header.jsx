@@ -69,8 +69,7 @@ const Header = () => {
                         <Link to="/" className=' text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <HomeOutlinedIcon />Home</Link>
                         <Link to="/path" className=' text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <LocalLibraryOutlinedIcon />All Paths</Link>
                         <Link to="/about" className=' text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <InfoOutlinedIcon />About</Link>
-                        <Link to="/supportus" className=' text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <FavoriteBorderOutlinedIcon />Support Us</Link>
-                        <Link to="https://www.facebook.com/cyberspacetechhub.ng?mibextid=ZbWKwL" className=' text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <ForumOutlinedIcon />Community</Link>
+                        
                     </div>
                 </nav>
                 <hr className=" border-t border-gray-200 dark:border-gray-600 my-4" />
@@ -122,9 +121,9 @@ const Header = () => {
                        <div className=" hidden md:ml-6 md:flex sm:space-x-8">
                             <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/path">All paths</Link>
                             <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/about">About</Link>
-                            <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="https://www.facebook.com/cyberspacetechhub.ng?mibextid=ZbWKwL">Community</Link>
-                            <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/supportus">Support Us</Link>
+                            
                             <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/login">Sign In</Link>
+                           
                             {isDarkMode ? 
                             <Link className=" text-gray-700 dark:text-gray-300 group flex items-center text-sm">
                                 <DarkModeOutlinedIcon onClick={toggleDarkmode} />

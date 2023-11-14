@@ -7,9 +7,8 @@ import About from './components/About';
 import SupportUs from './components/SupportUs';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
-import SignupPage from './components/SignupPage'
-import Others from './components/Others';
 import Start from './components/Start';
+import UserDashboard from './components/UserDashboard';
 
 function App() {
 
@@ -22,14 +21,12 @@ function App() {
         <Route path='/supportus' element={<SupportUs />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/signuppage' element={<SignupPage />} />
+        <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/start' element={<Start />} />
         <Route index element={<Body />} />
       </Route>
    </Routes>
-    <div>
-      
-    </div>
+    
     </>
   )
 }
