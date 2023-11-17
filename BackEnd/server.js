@@ -43,13 +43,8 @@ app.use('/refresh', require('./routes/refresh')); //refresh endpoint
 app.use('/logout', require('./routes/logout')); //logout
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employee'));
+app.use('/learningPath', require('./routes/learningPath'));
 
-
-
-//  app.get('/*',(req, res) =>{
-
-//     res.sendFile(path.join(__dirname,'views','404.html'));
-//  })
 
  app.all('*',(req, res) =>{
 
@@ -59,7 +54,7 @@ app.use('/employees', require('./routes/api/employee'));
         res.sendFile(path.join(__dirname,'views','404.html'));
     } else if(req.accepts('json')){
 
-        res.json({errror:'404 not Found'})
+        res.json({error:'404 not Found'})
     }else{
         res.type('txt').send('404 not found')
     }
@@ -81,21 +76,3 @@ app.use(errorHandler)
  });
 
 
-
-
-//add listener for log event
-// myEmitter.on('log', (msg) => logEvents(msg));
-
-// setTimeout(()=>{
-
-//     myEmitter.emit('log','Log event emmitted');
-// },2000);
-
-
-
-// const {format} = require('date-fns')
-// const {v4:uuid} = require('uuid')
-
-
-// console.log(format(new Date(),'ddMMyyyy\tHH:mm:ss'))
-// console.log(uuid()) 
