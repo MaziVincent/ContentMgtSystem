@@ -38,12 +38,14 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname,'/public')));
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
-app.use('/auth', require('./routes/auth'));
+app.use('/login', require('./routes/auth')); //login
 app.use('/refresh', require('./routes/refresh')); //refresh endpoint
 app.use('/logout', require('./routes/logout')); //logout
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employee'));
 app.use('/learningPath', require('./routes/learningPath'));
+app.use('/module', require('./routes/module'));
+app.use('/topic', require('./routes/topic'));
 
 
  app.all('*',(req, res) =>{

@@ -29,7 +29,7 @@ const createLearningPath = async (req, res)=>{
             imageUrl : imageUrl
         });
 
-        res.status(201).json({'message' : 'employee created'});  //created
+        res.status(201).json({'message' : 'learning path  created successfully'});  //created
 
     }catch(err){
 
@@ -45,7 +45,7 @@ const updateLearningPath = async (req, res)=>{
     
     if(!req?.body._id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const currentLearningPath = await Employee.findOne({_id : req.body?._id}).exec();
+    const currentLearningPath = await LearningPath.findOne({_id : req.body?._id}).exec();
     
    
     if(!currentLearningPath){
@@ -57,6 +57,13 @@ const updateLearningPath = async (req, res)=>{
     if(req.body?.description) currentLearningPath.description = req.body.description
     if(req.body?.imageUrl) currentLearningPath.imageUrl = req.body.imageUrl
 
+    if(req.body?.module){
+        if(!currentLearningPath.modules.some(mod => mod._id === req.body?.module._id)){
+
+            currentLearningPath.modules.push(req.body.module);
+        }
+    }
+
    const result = await currentLearningPath.save();
 
    res.status(200).json({"message" : " Learning Path Updated Successfully", result})
@@ -67,7 +74,7 @@ const deleteLearningPath = async (req,res)=>{
    
     if(!req.body?._id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const currentLearningPath = await Employee.findOne({_id :req.body._id}).exec();
+    const currentLearningPath = await LearningPath.findOne({_id :req.body._id}).exec();
     
     if(!currentLearningPath){
 
