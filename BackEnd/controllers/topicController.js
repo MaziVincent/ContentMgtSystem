@@ -13,18 +13,19 @@ const getAllTopics = async (req,res)=>{
 
 const createTopic = async (req, res)=>{
    
-    const {name, description} = req.body
+    const {name, description, index } = req.body
 
-    if(!name || !description){
+    if(!name || !description || !index ){
 
-        return res.status(400).json({'message':'name or description required'});
+        return res.status(400).json({'message':'name or description or index required'});
     }
 
     try{
 
         const topic = Topic.create({
             name:name,
-            description : description
+            description : description,
+            index: index
         });
 
         res.status(201).json({'message' : 'Topic  created successfully'});  //created
@@ -53,6 +54,7 @@ const updateTopic = async (req, res)=>{
     }
     if(req.body?.name) currentTopic.name = req.body.name
     if(req.body?.description) currentTopic.description = req.body.description
+    if(req.body?.index) currentTopic.index = req.body.index
 
     if(req.body?.lesson){
         if(!currentTopic.lessons.some(lesson => lesson._id === req.body?.lesson._id)){

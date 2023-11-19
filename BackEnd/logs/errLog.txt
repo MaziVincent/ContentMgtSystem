@@ -8,3 +8,4 @@
 14112023	02:55:50	7bd27015-c551-4868-8c0c-9ff5f82abcc6	Error : Not allowed by CORS
 17112023	23:53:31	07dea98e-6b92-46f5-98d4-bde660b15500	Error : Not allowed by CORS
 18112023	01:20:06	560a1e55-0d84-40a2-b46f-57ebea98497d	SyntaxError : Unexpected token " in JSON at position 0
+18112023	11:53:56	49bf67b3-c1e0-4898-b78e-cbbb72d54653	SyntaxError : Unexpected token " in JSON at position 0

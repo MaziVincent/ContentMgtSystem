@@ -6,10 +6,6 @@ const cors = require('cors')
 const errorHandler = require('./middleware/errorHandler')
 
 const {logger} = require('./middleware/logEvents')
-const EventEmitter = require('events')
-class Emitter extends EventEmitter{ };
-//initialize object
-const myEmitter = new Emitter();
 const verifyJWT = require('./middleware/verifyJWT');
 const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
@@ -46,6 +42,7 @@ app.use('/employees', require('./routes/api/employee'));
 app.use('/learningPath', require('./routes/learningPath'));
 app.use('/module', require('./routes/module'));
 app.use('/topic', require('./routes/topic'));
+app.use('/lesson', require('./routes/lesson'));
 
 
  app.all('*',(req, res) =>{
