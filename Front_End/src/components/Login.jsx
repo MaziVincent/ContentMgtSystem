@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
 
     const {auth, setAuth} = useContext(AuthContext)
-  const url = `${baseUrl}auth`;
+  const url = `${baseUrl}login`;
   const navigate = useNavigate();
 
   const {

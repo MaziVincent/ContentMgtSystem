@@ -9,6 +9,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Start from './components/Start';
 import UserDashboard from './components/UserDashboard';
+import Dashboard from './components/admin/Dashboard';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/start' element={<Start />} />
         <Route index element={<Body />} />
       </Route>
+      <Route path='/admin' element={<Dashboard />}></Route>
    </Routes>
     
     </>
