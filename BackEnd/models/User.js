@@ -30,7 +30,10 @@ const userSchema = new Schema({
         Admin: String
 
     },
-    refreshToken: String
-});
+    refreshToken: String,
+    
+    searchString:String
+    
+},{timestamps : true});
 
 module.exports = mongoose.model('User', userSchema)
