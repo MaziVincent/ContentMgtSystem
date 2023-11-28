@@ -91,7 +91,8 @@ const getLearningPath = async (req,res)=>{
 
     if(!req.params?.id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const learningPath = await LearningPath.findOne({_id:req.params?.id}).exec();
+    const learningPath = await LearningPath.findOne({_id:req.params?.id}).populate('modules').exec();
+    
 
     if(!learningPath){
 

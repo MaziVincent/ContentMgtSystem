@@ -5,7 +5,7 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt');
 
-const handleNewUser = async (req, res) => {
+const handleNewStudent = async (req, res) => {
     const {firstname, lastname, email, password} = req.body;
 
     if(!email || !password || !firstname || !lastname ){
@@ -60,7 +60,8 @@ const handleNewAdmin = async (req, res) => {
             'lastname':lastname,
             'email':email, 
             'password':hashedPwd,
-            'roles': {User:'User', Admin:'Admin'}
+            'roles': {User:'User', Admin:'Admin'},
+            searchString:`${firstname}${lastname}${email}`
         });
        
         console.log(result);
@@ -72,7 +73,7 @@ const handleNewAdmin = async (req, res) => {
 }
 
 
-module.exports = {handleNewUser, handleNewAdmin};
+module.exports = {handleNewStudent, handleNewAdmin};
 
 
 

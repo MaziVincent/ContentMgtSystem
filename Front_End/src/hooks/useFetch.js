@@ -12,7 +12,7 @@ const useFetch = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
+        // withCredentials: true,
       });
 
       data = response.data;

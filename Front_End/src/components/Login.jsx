@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { useContext } from "react";
@@ -16,6 +16,8 @@ const Login = () => {
     const {auth, setAuth} = useContext(AuthContext)
   const url = `${baseUrl}login`;
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/'
 
   const {
     register,
@@ -41,7 +43,12 @@ const Login = () => {
       toast.success("Logged in Successfully");
 
       setTimeout(() => {
-        navigate("/dashboard");
+        if(response.data?.user?.roles.Student){
+          navigate("/dashboard");
+        }else{
+          navigate("/admin");
+        }
+       
       }, 2000);
     } catch (err) {
       switch (err?.response?.status) {

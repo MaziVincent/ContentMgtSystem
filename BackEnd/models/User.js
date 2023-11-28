@@ -30,8 +30,9 @@ const userSchema = new Schema({
         Admin: String
 
     },
+    status:{type:String, default:"Active"},
     refreshToken: String,
-    
+
     searchString:String
     
 },{timestamps : true});
