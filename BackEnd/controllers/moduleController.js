@@ -27,7 +27,7 @@ const createModule = async (req, res)=>{
             description : description
         });
 
-        res.status(201).json({'message' : 'module  created successfully'});  //created
+        res.status(201).json({'message' : 'module  created successfully', module});  //created
 
     }catch(err){
 
@@ -69,17 +69,17 @@ const updateModule = async (req, res)=>{
 
 const deleteModule = async (req,res)=>{
    
-    if(!req.body?._id) return res.status(400).json({"message" : " Module ID is required"});
+    if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
-    const currentModule = await Module.findOne({_id :req.body._id}).exec();
+    const currentModule = await Module.findOne({_id :req.params?.id}).exec();
     
     if(!currentModule){
 
-        return res.status(204).json({'message':`Module with ID ${req.body._id} not found`});
+        return res.status(204).json({'message':`Module with ID ${req.params?.id} not found`});
 
     }
 
-    const result = await currentModule.deleteOne({_id : req.body._id});
+    const result = await currentModule.deleteOne({_id : req.params?.id});
 
     res.status(200).json(result);
 }

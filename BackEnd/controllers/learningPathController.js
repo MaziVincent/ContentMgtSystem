@@ -14,7 +14,7 @@ const getAllLearningPaths = async (req,res)=>{
 
 const createLearningPath = async (req, res)=>{
    
-    const {name, description, imageUrl} = req.body
+    const {name, description, imageUrl, language, framework} = req.body
 
     if(!name || !description){
 
@@ -26,7 +26,9 @@ const createLearningPath = async (req, res)=>{
         const learningPath = LearningPath.create({
             name:name,
             description : description,
-            imageUrl : imageUrl
+            imageUrl : imageUrl,
+            language : language,
+            framework : framework
         });
 
         res.status(201).json({'message' : 'learning path  created successfully'});  //created
@@ -56,13 +58,24 @@ const updateLearningPath = async (req, res)=>{
     if(req.body?.name) currentLearningPath.name = req.body.name
     if(req.body?.description) currentLearningPath.description = req.body.description
     if(req.body?.imageUrl) currentLearningPath.imageUrl = req.body.imageUrl
+    if(req.body?.language) currentLearningPath.language = req.body.language
+    if(req.body?.framework) currentLearningPath.framework = req.body.framework
+
+    if(req.body?.modules){
+
+            currentLearningPath.modules = req.body.modules
+        
+    }
 
     if(req.body?.module){
-        if(!currentLearningPath.modules.some(mod => mod._id === req.body?.module._id)){
+
+       if(!currentLearningPath.modules.some((md) => md._id === req.body.module._id )){
 
             currentLearningPath.modules.push(req.body.module);
-        }
-    }
+       }
+    
+}
+
 
    const result = await currentLearningPath.save();
 
@@ -72,17 +85,17 @@ const updateLearningPath = async (req, res)=>{
 
 const deleteLearningPath = async (req,res)=>{
    
-    if(!req.body?._id) return res.status(400).json({"message" : " Learning Path ID is required"});
+    if(!req.params?.id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const currentLearningPath = await LearningPath.findOne({_id :req.body._id}).exec();
+    const currentLearningPath = await LearningPath.findOne({_id :req.params?.id}).exec();
     
     if(!currentLearningPath){
 
-        return res.status(204).json({'message':`learning Path with ID ${req.body._id} not found`});
+        return res.status(204).json({'message':`learning Path with ID ${req.params?.id} not found`});
 
     }
 
-    const result = await currentLearningPath.deleteOne({_id : req.body._id});
+    const result = await currentLearningPath.deleteOne({_id : req.params?.id});
 
     res.status(200).json(result);
 }

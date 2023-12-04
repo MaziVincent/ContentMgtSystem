@@ -11,8 +11,9 @@ router.route('/')
         .get(moduleController.getAllModules)
         .post(verifyRoles(ROLES_LIST.Admin), moduleController.createModule)
         .put(verifyRoles(ROLES_LIST.Admin), moduleController.updateModule)
-        .delete(verifyRoles(ROLES_LIST.Admin), moduleController.deleteModule)
+        
     router.route('/:id')
+    .delete(verifyRoles(ROLES_LIST.Admin), moduleController.deleteModule)
     .get(moduleController.getModule)
 
 

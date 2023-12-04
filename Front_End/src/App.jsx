@@ -15,6 +15,8 @@ import UnAuthorised from "./components/Unauthorized";
 import RequireAuth from "./hooks/requireAuth";
 import { QueryClient, QueryClientProvider } from "react-query";
 import LearningPathDetails from "./components/LearningPathDetails";
+import AdminLearningPath from "./components/admin/AdminLearningPath";
+import AdminModule from "./components/admin/AdminModule";
 
 function App() {
   const queryClient = new QueryClient()
@@ -75,6 +77,14 @@ function App() {
             <Route
               index
               element={<Overview />}
+            />
+            <Route
+              path="/admin/learningPath"
+              element={<AdminLearningPath />}
+            />
+            <Route
+              path="/admin/module"
+              element={<AdminModule />}
             />
           </Route>
         </Route>

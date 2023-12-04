@@ -15,6 +15,8 @@ const learningPathSchema = new Schema({
         required : true
     },
     imageUrl:String,
+    language:String,
+    framework:String,
     
     modules:[{type: Schema.Types.ObjectId , ref:'Module'}]
 

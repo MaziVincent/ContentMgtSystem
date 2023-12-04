@@ -10,9 +10,10 @@ router.route('/')
     .get(learningPathController.getAllLearningPaths)
     .post(verifyRoles(ROLES_LIST.Admin), learningPathController.createLearningPath)
     .put(verifyRoles(ROLES_LIST.Admin), learningPathController.updateLearningPath)
-    .delete(verifyRoles(ROLES_LIST.Admin), learningPathController.deleteLearningPath)
+    
 
     router.route('/:id')
+    .delete(verifyRoles(ROLES_LIST.Admin), learningPathController.deleteLearningPath)
     .get(learningPathController.getLearningPath)
 
     module.exports = router
