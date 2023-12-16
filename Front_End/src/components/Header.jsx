@@ -8,20 +8,24 @@ import CloseIcon from '@mui/icons-material/Close';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import CodeCraft1 from '../assets/image/CCHlogo.svg'
+import useAuth from "../hooks/useAuth";
+import useLogout from "../hooks/useLogout";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
-const Header = () => {
-
+const Header = ({mobileNav, setMobileNav}) => {
+    const {auth} = useAuth();
+    const logout = useLogout();
+    const navigate = useNavigate();
     const [showDiv, setShowDiv] = useState(false);
 
   const toggleDiv = () => {
-    setShowDiv(!showDiv);
+    setMobileNav(!mobileNav);
 
     // console.log(setShowDiv);
   };
@@ -38,13 +42,23 @@ const Header = () => {
         
     }
 
+    const handleLogOut = async ()=>{
+
+        const response = await  logout();
+        console.log(response)
+        toast('Logged out Successfully')
+        navigate('/');
+        toggleDiv()
+
+    }
     
 
     return ( 
     <>
+    <ToastContainer />
     
     {
-        showDiv && (
+        mobileNav && (
         <div className=" fixed inset-0 flex z-40 lg:hidden ">
         
         <div className=" relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-gray-800 focus:outline-none">
@@ -75,9 +89,9 @@ const Header = () => {
                 <hr className=" border-t border-gray-200 dark:border-gray-600 my-4" />
 
                 <div className=' flex flex-col gap-4 py-6'>
-                    <Link to="/signup" className='  text-gray-600 hover:bg-gray-50  dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> 
+                    {!auth.user && <Link to="/signup" className='  text-gray-600 hover:bg-gray-50  dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> 
                         <RocketLaunchOutlinedIcon />Get started
-                    </Link>
+                    </Link>}
 
                    { !isDarkMode ?
                      <Link onClick={toggleDarkmode}  className='  text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> 
@@ -88,8 +102,13 @@ const Header = () => {
                         <DarkModeOutlinedIcon  /> Dark mode
                     </Link>
                    }
+                    {
+                        auth.user ? 
+                        <Link to="" onClick={handleLogOut} className='  text-gray-600 hover:bg-gray-50  dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <LoginOutlinedIcon color="red" />Sign Out</Link>
+                        :
+                        <Link to="/login" className='  text-gray-600 hover:bg-gray-50  dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <LoginOutlinedIcon />Sign in</Link>
 
-                    <Link to="/login" className='  text-gray-600 hover:bg-gray-50  dark:hover:bg-gray-700 dark:text-gray-300 hover:text-gray-900 group flex items-center px-2 py-2 text-base font-medium gap-3'> <LoginOutlinedIcon />Sign in</Link>
+                    }
                 </div>
             </div>
         </div>
@@ -121,8 +140,12 @@ const Header = () => {
                        <div className=" hidden md:ml-6 md:flex sm:space-x-8">
                             <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/path">All paths</Link>
                             <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/about">About</Link>
+                            {
+                                auth.user?
+                                <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/dashboard">Dashboard</Link>
+                                : <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/login">Sign In</Link>
+                            }
                             
-                            <Link className=" text-sm border-transparent text-gray-500 hover:border-b-2 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 inline-flex items-center px-1 pt-1 font-medium border-orange-300" to="/login">Sign In</Link>
                            
                             {isDarkMode ? 
                             <Link className=" text-gray-700 dark:text-gray-300 group flex items-center text-sm">
@@ -134,10 +157,15 @@ const Header = () => {
                                     <LightModeOutlinedIcon onClick={toggleDarkmode} />
                                 </Link>
                             }
-                            
-                            <Link to="/signup" className=" py-3 md-py-2 md:px-2 lg:px-6 text-sm bg-teal-700 bord hover:bg-teal-800 hover:transition-all duration-300  text-white rounded-lg">
-                                Get Started
+                            {
+                            auth.user ?  <Link to="" onClick={handleLogOut} className=" py-3 md-py-2 md:px-2 lg:px-6 text-sm bg-red-700 bord hover:bg-red-800 hover:transition-all duration-300  text-white rounded-lg">
+                                Logout
                             </Link>
+                            : <Link to="/signup" className=" py-3 md-py-2 md:px-2 lg:px-6 text-sm bg-teal-700 bord hover:bg-teal-900 hover:transition-all duration-300  text-white rounded-lg">
+                            Get Started
+                        </Link>
+                            }
+                            
                        </div>
                     </div>
                     <button className=" hidden max-md:block pt-2 dark:text-gray-300">

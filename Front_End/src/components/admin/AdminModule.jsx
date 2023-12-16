@@ -5,12 +5,11 @@ import ViewModuleOutlinedIcon from "@mui/icons-material/ViewModuleOutlined";
 import { green, purple } from "@mui/material/colors";
 import useFetch from "../../hooks/useFetch";
 import { useState , useEffect} from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import useAuth from "../../hooks/useAuth";
 import baseUrl from "../../shared/baseUrl";
 import axios from "axios";
 import DeleteDialogue from "./subcomponents/DeleteDialogue";
-import CreateLearningPathModal from "./subcomponents/CreateLearningPathModal";
 import { ToastContainer, toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import Alert from '@mui/material/Alert';
@@ -20,6 +19,7 @@ const AdminModule = () => {
   const fetch = useFetch();
   const { auth } = useAuth();
   const url = `${baseUrl}module`;
+  const queryClient = useQueryClient();
  // const [data, setDate] = useState();
 
   const [open, setOpen] = useState(false);
@@ -41,17 +41,13 @@ const AdminModule = () => {
  
 
     const { data, isError, isLoading, isSuccess } = useQuery(
-        ["learningPaths"],
+        ["modules"],
         getModules,
         { keepPreviousData: true, 
             staleTime: 10000,
         refetchOnMount:"always" }
       );
 
-  
-  
-
-  //console.log(data);
  
   const handleDelete = async (_id) => {
 
@@ -62,7 +58,8 @@ const AdminModule = () => {
               },
         })
 
-        toast.success('Learning Path Deleted Successfully')
+        toast.success('Module Deleted Successfully')
+        queryClient.invalidateQueries('modules')
 
     }catch(err){
         console.log(err)
@@ -118,7 +115,7 @@ const AdminModule = () => {
             }
 
             {
-                isLoading && (<p> <CircularProgress /> </p>)
+                isLoading && (<p className="flex items-center justify-center"> <CircularProgress /> </p>)
             }
 
             {

@@ -17,88 +17,125 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import LearningPathDetails from "./components/LearningPathDetails";
 import AdminLearningPath from "./components/admin/AdminLearningPath";
 import AdminModule from "./components/admin/AdminModule";
+import AdminTopic from "./components/admin/AdminTopic";
+import AdminTopicDetails from "./components/admin/AdminTopicDetails";
+import PersistLogin from "./shared/PersistLogin";
 
 function App() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
+  const roles = { user: "User", admin: "Admin", student: "Student" };
 
   return (
-    <QueryClientProvider client={queryClient} >
-    <>
-      <Routes>
-        <Route
-          path="/"
-          element={<Home />}
-        >
+    <QueryClientProvider client={queryClient}>
+      <>
+        <Routes>
+          {/* public routes */}
           <Route
-            path="/path"
-            element={<AllPaths />}
-          />
-          <Route
-            path="/about"
-            element={<About />}
-          />
-          <Route
-            path="/supportus"
-            element={<SupportUs />}
-          />
-          <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/signup"
-            element={<SignUp />}
-          />
-          <Route element={<RequireAuth />}>
-            <Route
-              path="/dashboard"
-              element={<UserDashboard />}
-            />
-            <Route
-              path="/learningPath/:id"
-              element={<LearningPathDetails />}
-            />
-            <Route
-              path="/start"
-              element={<Start />}
-            />
-          </Route>
-
-          <Route
-            index
-            element={<Body />}
-          />
-        </Route>
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/admin"
-            element={<Dashboard />}
+            path="/"
+            element={<Home />}
           >
             <Route
-              index
-              element={<Overview />}
+              path="/path"
+              element={<AllPaths />}
             />
             <Route
-              path="/admin/learningPath"
-              element={<AdminLearningPath />}
+              path="/about"
+              element={<About />}
             />
             <Route
-              path="/admin/module"
-              element={<AdminModule />}
+              path="/supportus"
+              element={<SupportUs />}
             />
-          </Route>
-        </Route>
+            <Route
+              path="/login"
+              element={<Login />}
+            />
+            <Route
+              path="/signup"
+              element={<SignUp />}
+            />
+             <Route
+                  index
+                  element={<Body />}
+                />
 
-        <Route
-          path="*"
-          element={<Page404 />}
-        />
-        <Route
-          path="unauthorized"
-          element={<UnAuthorised />}
-        />
-      </Routes>
-    </>
+            {/* Catch all */}
+
+            <Route
+            path="*"
+            element={<Page404 />}
+          />
+          <Route
+            path="unauthorized"
+            element={<UnAuthorised />}
+          />
+
+
+
+
+            {/* Protected Routes  */}
+            <Route element={<PersistLogin />}>
+              <Route
+                element={
+                  <RequireAuth allowedRoles={[roles.student, roles.user]} />
+                }
+              >
+                <Route
+                  path="/dashboard"
+                  element={<UserDashboard />}
+                />
+                <Route
+                  path="/learningPath/:id"
+                  element={<LearningPathDetails />}
+                />
+                <Route
+                  path="/start"
+                  element={<Start />}
+                />
+
+               
+              </Route>
+            </Route>
+            </Route>
+
+            {/* Admin Routes  */}
+            <Route element={<PersistLogin />}>
+            <Route
+              element={<RequireAuth allowedRoles={[roles.admin, roles.user]} />}
+            >
+              <Route
+                path="/admin"
+                element={<Dashboard />}
+              >
+                <Route
+                  index
+                  element={<Overview />}
+                />
+                <Route
+                  path="/admin/learningPath"
+                  element={<AdminLearningPath />}
+                />
+                <Route
+                  path="/admin/module"
+                  element={<AdminModule />}
+                />
+                <Route
+                  path="/admin/topic"
+                  element={<AdminTopic />}
+                />
+                <Route
+                  path="/admin/topic/:id"
+                  element={<AdminTopicDetails />}
+                />
+              </Route>
+            </Route>
+            </Route>
+          </Routes>
+          
+
+          
+        
+      </>
     </QueryClientProvider>
   );
 }

@@ -22,13 +22,13 @@ const createTopic = async (req, res)=>{
 
     try{
 
-        const topic = Topic.create({
+        const result = Topic.create({
             name:name,
             description : description,
             index: index
         });
 
-        res.status(201).json({'message' : 'Topic  created successfully'});  //created
+        res.status(201).json({'message' : 'Topic  created successfully', result});  //created
 
     }catch(err){
 
@@ -71,17 +71,17 @@ const updateTopic = async (req, res)=>{
 
 const deleteTopic = async (req,res)=>{
    
-    if(!req.body?._id) return res.status(400).json({"message" : " Module ID is required"});
+    if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
-    const currentTopic = await Topic.findOne({_id :req.body._id}).exec();
+    const currentTopic = await Topic.findOne({_id :req.params?.id}).exec();
     
     if(!currentTopic){
 
-        return res.status(204).json({'message':`Module with ID ${req.body._id} not found`});
+        return res.status(204).json({'message':`Module with ID ${req.params?.id} not found`});
 
     }
 
-    const result = await currentTopic.deleteOne({_id : req.body._id});
+    const result = await currentTopic.deleteOne({_id : req.params?.id});
 
     res.status(200).json(result);
 }
@@ -90,7 +90,7 @@ const getTopic = async (req,res)=>{
 
     if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
-    const topic = await Topic.findOne({_id:req.params?.id}).exec();
+    const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').exec();
 
     if(!topic){
 

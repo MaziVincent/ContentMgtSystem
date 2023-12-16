@@ -47,9 +47,9 @@ const handleLogin = async (req, res) => {
    const result = await foundUser.save();
    console.log(result)
 
-    res.cookie('refreshToken', refreshToken, {httpOnly:true, sameSite:'None',  maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie('refreshToken', refreshToken, {httpOnly:true, sameSite:'None',  maxAge: 24 * 60 * 60 * 1000, domain:'localhost' , secure:true });
     
-    res.json({accessToken, user : foundUser})
+    res.json({accessToken, user : foundUser, roles })
 }
 
 module.exports = {handleLogin}

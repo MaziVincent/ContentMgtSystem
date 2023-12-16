@@ -1,13 +1,16 @@
 import axios from "axios";
+import useAxiosPrivate from "./useAxiosPrivate"
 
 const useFetch = () => {
+  const axiosPrivate = useAxiosPrivate();
+
   const fetchData = async (url, token) => {
     const controller = new AbortController();
 
     let data;
 
     try {
-      const response = await axios.get(url, {
+      const response = await axiosPrivate.get(url, {
         signal: controller.signal,
         headers: {
           Authorization: `Bearer ${token}`,

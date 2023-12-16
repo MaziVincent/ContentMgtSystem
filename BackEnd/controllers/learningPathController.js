@@ -72,6 +72,8 @@ const updateLearningPath = async (req, res)=>{
        if(!currentLearningPath.modules.some((md) => md._id === req.body.module._id )){
 
             currentLearningPath.modules.push(req.body.module);
+       }else{
+        return res.status(409).json({'message' : 'module already exist on learning path'})
        }
     
 }

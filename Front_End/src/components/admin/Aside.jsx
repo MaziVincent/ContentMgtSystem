@@ -68,8 +68,8 @@ const Aside = ({ aside, setAside }) => {
         </ul>
         <ul className="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
           <li>
-            <a
-              href="#"
+            <Link
+              to="/admin/topic"
               className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
             >
               <svg
@@ -87,7 +87,7 @@ const Aside = ({ aside, setAside }) => {
                 ></path>
               </svg>
               <span className="ml-3">Topics</span>
-            </a>
+            </Link>
           </li>
           <li>
             <a

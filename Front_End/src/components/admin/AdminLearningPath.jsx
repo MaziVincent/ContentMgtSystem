@@ -111,7 +111,7 @@ const AdminLearningPath = () => {
             }
 
             {
-                isLoading && (<p> <CircularProgress /> </p>)
+                isLoading && (<p className="flex items-center justify-center"> <CircularProgress /> </p>)
             }
 
             {

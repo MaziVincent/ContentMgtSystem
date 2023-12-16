@@ -10,9 +10,10 @@ router.route('/')
     .get(topicController.getAllTopics)
     .post(verifyRoles(ROLES_LIST.Admin), topicController.createTopic)
     .put(verifyRoles(ROLES_LIST.Admin), topicController.updateTopic)
-    .delete(verifyRoles(ROLES_LIST.Admin), topicController.deleteTopic)
+    
 
     router.route('/:id')
+    .delete(verifyRoles(ROLES_LIST.Admin), topicController.deleteTopic)
     .get(topicController.getTopic)
 
     module.exports = router

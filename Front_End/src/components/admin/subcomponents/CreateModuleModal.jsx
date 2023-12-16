@@ -5,12 +5,14 @@ import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useFetch from "../../../hooks/useFetch";
+import useUpdate from "../../../hooks/useUpdate";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useState } from "react";
 
 const CreateModuleModal = ({ open, handleClose }) => {
   const [learningPaths, setLearningPaths] = useState();
   const post = usePost();
+  const update = useUpdate();
   const { auth } = useAuth();
   const fetch = useFetch();
   const url = `${baseUrl}module`;
@@ -39,13 +41,27 @@ const CreateModuleModal = ({ open, handleClose }) => {
   
 
   const createModule = async (data) => {
-    // const response = await post(url, data, auth?.accessToken);
+      const response = await post(url, data, auth?.accessToken);
+      const lp = {_id :data.learningPath, module:response.data.result} 
+      const result = await update(`${baseUrl}learningPath`, lp, auth?.accessToken)
 
-    // handleClose();
-    // toast.success(response.data.message);
-
-    console.log(data.learningPath);
   };
+
+  const {mutate} = useMutation(createModule,{
+
+    onSuccess: ()=>{
+      queryClient.invalidateQueries('modules')
+    }
+  })
+
+  const handleModuleCreate = (module) => {
+
+    mutate(module)
+
+    handleClose();
+    toast.success('Module Created Successfully');
+
+  }
 
  // console.log(data)
   return (
@@ -68,7 +84,7 @@ const CreateModuleModal = ({ open, handleClose }) => {
             {/* <!-- Modal header --> */}
             <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Create Learning Path
+                Create Module
               </h3>
               <button
                 type="button"
@@ -95,7 +111,7 @@ const CreateModuleModal = ({ open, handleClose }) => {
               </button>
             </div>
             {/* <!-- Modal body --> */}
-            <form onSubmit={handleSubmit(createModule)}>
+            <form onSubmit={handleSubmit(handleModuleCreate)}>
               <div className="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
                   <label

@@ -22,7 +22,7 @@ const handleLogout = async (req, res) => {
     const foundUser = await User.findOne({refreshToken}).exec();
     if(!foundUser){
 
-        res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None'});
+        res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None',  maxAge: 24 * 60 * 60 * 1000, domain:'localhost' , secure:true });
         return res.sendStatus(204) // no content
     } 
 
@@ -33,7 +33,7 @@ const handleLogout = async (req, res) => {
     console.log(result);
     
 
-    res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None'});
+    res.clearCookie('refreshToken', {httpOnly:true, sameSite:'None',  maxAge: 24 * 60 * 60 * 1000, domain:'localhost' , secure:true });
     res.sendStatus(204);
 
 }
