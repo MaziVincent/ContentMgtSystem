@@ -42,8 +42,8 @@ const CreateModuleModal = ({ open, handleClose }) => {
 
   const createModule = async (data) => {
       const response = await post(url, data, auth?.accessToken);
-      const lp = {_id :data.learningPath, module:response.data.result} 
-      const result = await update(`${baseUrl}learningPath`, lp, auth?.accessToken)
+      // const lp = {_id :data.learningPath, module:response.data.module} 
+      // const result = await update(`${baseUrl}learningPath`, lp, auth?.accessToken)
 
   };
 

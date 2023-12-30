@@ -42,7 +42,7 @@ const AdminLearningPath = () => {
         refetchOnMount:"always" }
   );
 
-  //console.log(data);
+  console.log(data);
  
   const handleDelete = async (_id) => {
 

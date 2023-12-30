@@ -164,7 +164,7 @@ const AdminTopic = () => {
               <tbody className="divide-y divide-gray-100 border-t border-gray-100">
                 {data?.map((tp) => (
                   <tr
-                    className="hover:bg-gray-50 cursor-pointer"
+                    className="hover:bg-gray-100 cursor-pointer"
                     key={tp._id}
                     onClick={() => {navigate(`/admin/topic/${tp._id}`)}}
                   >

@@ -5,17 +5,14 @@ import baseUrl from "../../../shared/baseUrl";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import useFetch from "../../../hooks/useFetch";
 import useUpdate from "../../../hooks/useUpdate";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useState } from "react";
+
 
 const CreateLessonModal = ({ open, handleClose, topicId }) => {
-  const [modules, setModules] = useState();
   const post = usePost();
   const update = useUpdate();
   const { auth } = useAuth();
-  const fetch = useFetch();
   const url = `${baseUrl}lesson`;
   const queryClient = useQueryClient();
 
@@ -30,8 +27,9 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
 
   const createLesson = async (data) => {
       const response = await post(url, data, auth?.accessToken);
-      const topic = {_id :topicId, lesson:response.data.result} 
-      const result = await update(`${baseUrl}topic`, lesson, auth?.accessToken)
+      const topic = {_id :topicId, lesson:response.data?.lesson} 
+      const result = await update(`${baseUrl}topic`, topic, auth?.accessToken)
+      console.log(response.data)
 
   };
 
@@ -47,7 +45,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
     mutate(lesson)
 
     handleClose();
-    toast.success('Topic Created Successfully');
+    toast.success('Lesson Created Successfully');
 
   }
 

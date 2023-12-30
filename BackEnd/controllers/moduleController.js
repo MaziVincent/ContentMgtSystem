@@ -1,4 +1,7 @@
 const Module = require("../models/Module");
+const mongoose = require("mongoose")
+const {updateLearningPath} = require("../services/learningPathService");
+const LearningPath = require("../models/LearningPath");
 
 const getAllModules = async (req, res) => {
   const modules = await Module.find();
@@ -8,19 +11,26 @@ const getAllModules = async (req, res) => {
 };
 
 const createModule = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, learningPath } = req.body;
 
-  if (!name || !description) {
+  if (!name || !description || !learningPath) {
     return res.status(400).json({ message: "name or description required" });
   }
 
   try {
-    const result = await Module.create({
+    const module = await Module.create({
       name: name,
       description: description,
+      learningPath : new mongoose.Types.ObjectId(learningPath)
     });
-    console.log(result);
-    res.status(201).json({ message: "module  created successfully", result }); //created
+
+    console.log(module)
+    const data = { module,_id:learningPath }
+   const lp = await updateLearningPath(data, res );
+
+   console.log(lp);
+
+    res.status(201).json({ message: "module  created successfully", module }); //created
   } catch (err) {
     console.error(err);
   }
@@ -69,6 +79,18 @@ const deleteModule = async (req, res) => {
       .status(204)
       .json({ message: `Module with ID ${req.params?.id} not found` });
   }
+
+  const currentLearningPath = await LearningPath.findOne({_id:currentModule.learningPath}).exec();
+
+  if(currentLearningPath){
+
+    const moduleIndex = currentLearningPath.modules.indexOf(currentModule.learningPath);
+    currentLearningPath.modules.splice(moduleIndex, 1);
+  
+    await currentLearningPath.save();
+
+  }
+
 
   const result = await currentModule.deleteOne({ _id: req.params?.id });
 

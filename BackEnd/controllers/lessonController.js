@@ -22,7 +22,7 @@ const createLesson = async (req, res)=>{
 
     try{
 
-        const lesson = Lesson.create({
+        const lesson = await Lesson.create({
             title:title,
             subTitle : subTitle,
             body : body,
@@ -30,7 +30,7 @@ const createLesson = async (req, res)=>{
 
         });
 
-        res.status(201).json({'message' : 'Lesson  created successfully'});  //created
+        res.status(201).json({'message' : 'Lesson  created successfully', lesson});  //created
 
     }catch(err){
 

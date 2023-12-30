@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
 
-    const {auth, setAuth} = useContext(AuthContext)
+    const {auth, setAuth, persist, setPersist} = useContext(AuthContext)
   const url = `${baseUrl}login`;
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,6 +66,11 @@ const Login = () => {
       console.error(err);
     }
   };
+
+  const togglePersist = () => {setPersist(prev => !prev)}
+  useEffect(()=>{
+    localStorage.setItem("persist", persist)
+  },[persist])
   return (
     <div className=" bg-gray-50 dark:bg-gray-900 min-h-screen">
       <ToastContainer />
@@ -149,6 +154,8 @@ const Login = () => {
                         type="checkbox"
                         name=""
                         id="remember me"
+                        onChange={togglePersist}
+                        checked={persist}
                       />
                       <label
                         className=" ml-2 text-sm block text-gray-900 dark:text-gray-300 mb-0"

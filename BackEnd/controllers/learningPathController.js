@@ -2,11 +2,12 @@
 
 
 const LearningPath = require('../models/LearningPath');
+const learningPathService = require('../services/learningPathService')
 
 
 const getAllLearningPaths = async (req,res)=>{
 
-    const learningPaths = await LearningPath.find();
+    const learningPaths = await LearningPath.find().populate('modules').exec();
     if(!learningPaths) return res.status(400).json({"message" : "No learnign Paths found"});
 
     res.status(200).json(learningPaths)
@@ -47,42 +48,9 @@ const updateLearningPath = async (req, res)=>{
     
     if(!req?.body._id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const currentLearningPath = await LearningPath.findOne({_id : req.body?._id}).exec();
-    
-   
-    if(!currentLearningPath){
+    const response = learningPathService.updateLearningPath(req.body, res);
 
-        return res.status(204).json({'message':`Learning Path not found`});
-
-    }
-    if(req.body?.name) currentLearningPath.name = req.body.name
-    if(req.body?.description) currentLearningPath.description = req.body.description
-    if(req.body?.imageUrl) currentLearningPath.imageUrl = req.body.imageUrl
-    if(req.body?.language) currentLearningPath.language = req.body.language
-    if(req.body?.framework) currentLearningPath.framework = req.body.framework
-
-    if(req.body?.modules){
-
-            currentLearningPath.modules = req.body.modules
-        
-    }
-
-    if(req.body?.module){
-
-       if(!currentLearningPath.modules.some((md) => md._id === req.body.module._id )){
-
-            currentLearningPath.modules.push(req.body.module);
-       }else{
-        return res.status(409).json({'message' : 'module already exist on learning path'})
-       }
-    
-}
-
-
-   const result = await currentLearningPath.save();
-
-   res.status(200).json({"message" : " Learning Path Updated Successfully", result})
-
+    return response;
 }
 
 const deleteLearningPath = async (req,res)=>{

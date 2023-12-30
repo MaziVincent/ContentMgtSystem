@@ -22,7 +22,7 @@ const createTopic = async (req, res)=>{
 
     try{
 
-        const result = Topic.create({
+        const result = await Topic.create({
             name:name,
             description : description,
             index: index
@@ -59,7 +59,7 @@ const updateTopic = async (req, res)=>{
     if(req.body?.lesson){
         if(!currentTopic.lessons.some(lesson => lesson._id === req.body?.lesson._id)){
 
-            currentTopic.topics.push(req.body.lesson);
+            currentTopic.lessons.push(req.body.lesson);
         }
     }
 
@@ -91,6 +91,7 @@ const getTopic = async (req,res)=>{
     if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
     const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').exec();
+    
 
     if(!topic){
 

@@ -16,6 +16,7 @@ const moduleSchema = new Schema({
         type: String,
         required : true
     },
+    learningPath:{type: Schema.Types.ObjectId, ref:'LearningPath'},
     topics:[{type: Schema.Types.ObjectId , ref:'Topic'}]
 
 })

@@ -43,11 +43,9 @@ const PersistLogin = () => {
 
     return ( <>
 
-        {/* {
+        {
             !persist 
-            ? <Outlet /> : */}
-            {
-                
+            ? <Outlet /> :  
             isLoading ? <p className="flex items-center justify-center p-20"> <CircularProgress color="success" /> </p>
             : <Outlet />
         }

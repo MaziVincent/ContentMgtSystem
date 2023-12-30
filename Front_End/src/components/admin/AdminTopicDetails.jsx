@@ -10,6 +10,7 @@ import CreateLessonModal from "./subcomponents/CreateLessonModal";
 import DeleteDialogue from "./subcomponents/DeleteDialogue";
 import { useState } from "react";
 
+
 const AdminTopicDetails = () => {
   const { id } = useParams();
   const fetch = useFetch();
@@ -43,7 +44,7 @@ const AdminTopicDetails = () => {
     { keepPreviousData: true, staleTime: 100000, refetchOnMount: "always" }
   );
 
-  console.log(data);
+  //console.log(data);
 
 
   const handleDelete = async (_id) => {
@@ -56,7 +57,7 @@ const AdminTopicDetails = () => {
         })
 
         toast.success('Topic Deleted Successfully')
-        queryClient.invalidateQueries('topics')
+        queryClient.invalidateQueries('topic')
 
     }catch(err){
         console.log(err)
@@ -71,13 +72,14 @@ const AdminTopicDetails = () => {
           <button
             type="button"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={()=>{navigate(-1)}}
           >
             Back
           </button>
-          <h2 className="text-center dark:text-gray-100 capitalize" >{data?.name}</h2>
+          <h2 className="text-center text-xl font-bold dark:text-gray-100 capitalize" >{data?.name}</h2>
         </div>
         <div className="grid grid-cols-1 items-center sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-4 ">
-        <div className="shadow-lg p-4   rounded-lg border-gray-300 dark:border-gray-100 h-32 md:h-64 ">
+        <div className="shadow-lg p-4 rounded-lg border-gray-300 dark:border-gray-100 h-32 md:h-64 ">
           <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
             <span>
               {" "}
@@ -94,14 +96,14 @@ const AdminTopicDetails = () => {
 
           <h3 className="text-xl text-center font-bold dark:text-gray-100">
             {" "}
-            Topics{" "}
+            Lessons {" "}
           </h3>
         </div>{" "}
         </div>
       </section>
 
 
-      <CreateLessonModal open={open} handleClose={handleClose} />
+      <CreateLessonModal open={open} handleClose={handleClose} topicId={data?._id} />
        <DeleteDialogue open={openDeleteModal} handleClose={handleCloseDeleteModal} deleteId={deleteId} handleDelete={handleDelete} />
 
       <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -188,18 +190,8 @@ const AdminTopicDetails = () => {
                     >
                       Index
                     </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3"
-                    >
-                      Description
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3"
-                    >
-                      Price
-                    </th>
+                    
+                    
                     <th
                       scope="col"
                       className="px-4 py-3"
@@ -209,70 +201,68 @@ const AdminTopicDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Apple iMac 27&#34;
-                    </th>
-                    <td className="px-4 py-3">PC</td>
-                    <td className="px-4 py-3">Apple</td>
-                    <td className="px-4 py-3">300</td>
-                    <td className="px-4 py-3">$2999</td>
-                    <td className="px-4 py-3 flex items-center justify-end">
-                      <button
-                        id="apple-imac-27-dropdown-button"
-                        data-dropdown-toggle="apple-imac-27-dropdown"
-                        className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                        type="button"
+                  {
+                    data?.lessons?.map((lesson)=>(
+                      <tr className="border-b dark:border-gray-700" key={lesson._id}>
+                      <th
+                        scope="row"
+                        className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          aria-hidden="true"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
+                        {lesson.title}&#34;
+                      </th>
+                      <td className="px-4 py-3">{lesson.subTitle}</td>
+                      <td className="px-4 py-3">{lesson.index}</td>
+                      
+                      <td className="px-4 py-3 flex items-center justify-end">
+                      
+                      <div className="flex justify-end gap-4">
+                        <button
+                          x-data="{ tooltip: 'Delete' }"
+                          onClick={()=> {handleOpenDeleteModal(); setDeleteId(lesson._id)}}
                         >
-                          <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                      </button>
-                      <div
-                        id="apple-imac-27-dropdown"
-                        className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                      >
-                        <ul
-                          className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                          aria-labelledby="apple-imac-27-dropdown-button"
-                        >
-                          <li>
-                            <a
-                              href="#"
-                              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Show
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Edit
-                            </a>
-                          </li>
-                        </ul>
-                        <div className="py-1">
-                          <a
-                            href="#"
-                            className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                            x-tooltip="tooltip"
                           >
-                            Delete
-                          </a>
-                        </div>
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          x-data="{ tooltip: 'Edite' }"
+                          href="#"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                            x-tooltip="tooltip"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                            />
+                          </svg>
+                        </button>
                       </div>
-                    </td>
-                  </tr>
+                  
+                      </td>
+                    </tr>
+                    ))
+                  }
+                 
                 </tbody>
               </table>
             </div>
@@ -367,9 +357,9 @@ const AdminTopicDetails = () => {
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   </a>
