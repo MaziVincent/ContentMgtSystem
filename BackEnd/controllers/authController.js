@@ -9,19 +9,22 @@ const handleLogin = async (req, res) => {
     const {email, password} = req.body;
     
     if(!email || !password){
+
         return res.status(400).json({'message':'Username and password required'});
 
     }
     
     const foundUser = await User.findOne({email:email}).exec();
+
     console.log(foundUser)
     if(!foundUser) return res.sendStatus(401) // unAuthorized
 
     //evaluate password
     const match = await bcrypt.compare(password, foundUser.password);
-    if(!match) return res.sendStatus(401) //UnAuthorized
+    if(!match) return res.sendStatus(401)  //UnAuthorized
 
     const roles = Object.values(foundUser.roles)
+    
     //create jwt
     const accessToken = jwt.sign(
         {

@@ -42,8 +42,7 @@ const CreateTopicModal = ({ open, handleClose }) => {
 
   const createTopic = async (data) => {
       const response = await post(url, data, auth?.accessToken);
-      const module = {_id :data.module, module:response.data.result} 
-      const result = await update(`${baseUrl}module`, module, auth?.accessToken)
+      console.log(response.data);
 
   };
 
