@@ -30,7 +30,7 @@ const updateModule = async (data, res) => {
 
             currentModule.topics.push(data?.topic);
        }else{
-        return res.status(409).json({'message' : 'topic already exist on learning path'})
+        return res.status(409).json({'message' : 'topic already exist on module'})
        }
     
 }

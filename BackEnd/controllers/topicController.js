@@ -62,6 +62,7 @@ const updateTopic = async (req, res)=>{
     if(req.body?.index) currentTopic.index = req.body.index
 
     if(req.body?.lesson){
+
         if(!currentTopic.lessons.some(lesson => lesson._id === req.body?.lesson._id)){
 
             currentTopic.lessons.push(req.body.lesson);
@@ -70,7 +71,13 @@ const updateTopic = async (req, res)=>{
 
    const result = await currentTopic.save();
 
-   res.status(200).json({"message" : " Module Updated Successfully", result})
+   console.log(result)
+
+   const data = {topic:result, _id:req.body.module}
+   const response = await updateModule(data, res );
+   
+
+   res.status(200).json({"message" : " Topic Updated Successfully", result})
 
 }
 

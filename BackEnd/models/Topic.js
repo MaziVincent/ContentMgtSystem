@@ -16,7 +16,8 @@ const topicSchema = new Schema({
         required : true
     },
     index: Number,
-    lessons:[ {type: Schema.Types.ObjectId , ref:'Lesson'} ]
+    lessons:[ {type: Schema.Types.ObjectId , ref:'Lesson'} ],
+    quiz:[ {type: Schema.Types.ObjectId , ref:'Quiz'} ]
 
 })
 

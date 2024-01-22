@@ -90,12 +90,14 @@ const getModule = async (req, res) => {
   if (!req.params?.id)
     return res.status(400).json({ message: " Module ID is required" });
 
-  const module = await Module.findOne({ _id: req.params?.id }).exec();
+  const module = await Module.findOne({ _id: req.params?.id }).populate('topics').exec();
 
   if (!module) {
+
     return res
       .status(400)
       .json({ message: `Module with id ${req.params.id} not found` });
+      
   }
 
   res.status(200).json(module);

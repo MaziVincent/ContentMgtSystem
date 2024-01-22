@@ -62,7 +62,8 @@ const updateLesson = async (req, res)=>{
 
    const result = await currentLesson.save();
 
-   res.status(200).json({"message" : " Module Updated Successfully", result})
+   res.status(200).json({"message" : " Lesson Updated Successfully", result})
+   
 
 }
 

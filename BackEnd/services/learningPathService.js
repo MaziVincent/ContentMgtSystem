@@ -34,6 +34,7 @@ const updateLearningPath = async (data, res) => {
        }else{
         
         return res.status(409).json({'message' : 'module already exist on learning path'})
+        
        }
     
 }

@@ -133,7 +133,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     type="text"
                     name="subTitle"
                     id="subTitle"
-                    {...register("subTitle", { required: true })}
+                    {...register("subTitle")}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type subTitle"
                     required=""
@@ -190,7 +190,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
               </div>
               <button
                 type="submit"
-                className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="text-gray-600 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 <svg
                   className="mr-1 -ml-1 w-6 h-6"
