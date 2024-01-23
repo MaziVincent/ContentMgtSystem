@@ -89,7 +89,7 @@ const SignUp = () => {
                     <div className="input mt-2 relative rounded-md shadow-sm">
                       <input
                         placeholder="Henry"
-                        className=" dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
+                        className=" dark:bg-gray-300 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
                         required="required"
                         type="text"
                         {...register("firstname", { required: true })}
@@ -113,7 +113,7 @@ const SignUp = () => {
                     <div className="input mt-2 relative rounded-md shadow-sm">
                       <input
                         placeholder="Ford"
-                        className=" dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
+                        className=" dark:bg-gray-300 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
                         required="required"
                         type="text"
                         {...register("lastname", { required: true })}
@@ -136,7 +136,7 @@ const SignUp = () => {
                     </label>
                     <div className="input mt-2 relative rounded-md shadow-sm">
                       <input
-                        className=" dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
+                        className=" dark:bg-gray-300 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
                         required="required"
                         type="email"
                         {...register("email", { required: true })}
@@ -159,7 +159,7 @@ const SignUp = () => {
                     </label>
                     <div className="input mt-2 relative rounded-md shadow-sm">
                       <input
-                        className=" dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
+                        className=" dark:bg-gray-300 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
                         required="required"
                         type="password"
                         {...register("password", { required: true })}
@@ -183,7 +183,7 @@ const SignUp = () => {
                     </label>
                     <div className="input  mt-2 relative rounded-md shadow-sm">
                       <input
-                        className=" dark:bg-gray-700 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
+                        className=" dark:bg-gray-300 block w-full rounded-md border py-3 px-3 focus:outline-none border-gray-300 focus:ring-blue-600 focus:border-blue-600"
                         required="required"
                         type="password"
                         {...register("confirmPassword", {
@@ -212,7 +212,7 @@ const SignUp = () => {
                     <input
                       className=" border rounded-md border-gray-300 bg-teal-800 text-white w-full py-2 px-2 text-sm"
                       type="submit"
-                      value="Sign in"
+                      value="Sign Up"
                     />
                   </div>
                 </div>

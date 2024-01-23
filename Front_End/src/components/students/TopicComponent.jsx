@@ -5,6 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import useAuth from "../../hooks/useAuth";
 import { useQuery } from "react-query";
 import baseUrl from "../../shared/baseUrl";
+import QuizModal from "./QuizModal";
 
 
 
@@ -32,6 +33,11 @@ const TopicComponent = () => {
 
 
   console.log(data)
+
+  
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
     return ( <>
     
@@ -63,12 +69,13 @@ const TopicComponent = () => {
                 ))
             }
 
+        <QuizModal isOpen={open} onClose={handleClose} assessments={data?.quiz} />
         
         <div className="flex justify-between p-4 shadow-sm">
             <button  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >Previous </button>
             <button  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          > Start Quiz</button>
+              onClick={handleOpen} > Start Quiz</button>
             <button  className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800"
           > Next </button>
         </div>

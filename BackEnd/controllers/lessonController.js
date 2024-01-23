@@ -1,6 +1,7 @@
 
 
 const Lesson = require('../models/Lesson');
+const topicService = require('../services/topicService')
 
 
 const getAllLessons = async (req,res)=>{
@@ -13,7 +14,7 @@ const getAllLessons = async (req,res)=>{
 
 const createLesson = async (req, res)=>{
    
-    const {title, subTitle, body, index} = req.body
+    const {title, subTitle, body, index, topicId} = req.body
 
     if(!title || !body || !index){
 
@@ -29,6 +30,10 @@ const createLesson = async (req, res)=>{
             index : index
 
         });
+
+        const data = {lesson, _id:topicId}
+
+        const response = await topicService.updateTopic(data, res)
 
         res.status(201).json({'message' : 'Lesson  created successfully', lesson});  //created
 
@@ -63,7 +68,7 @@ const updateLesson = async (req, res)=>{
    const result = await currentLesson.save();
 
    res.status(200).json({"message" : " Lesson Updated Successfully", result})
-   
+
 
 }
 

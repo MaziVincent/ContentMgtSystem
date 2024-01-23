@@ -25,10 +25,10 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
   
   
 
-  const createLesson = async (data) => {
+  const createLesson = async (lesson) => {
+      const data = {...lesson, topicId}
       const response = await post(url, data, auth?.accessToken);
-      const topic = {_id :topicId, lesson:response.data?.lesson} 
-      const result = await update(`${baseUrl}topic`, topic, auth?.accessToken)
+      
       console.log(response.data)
 
   };

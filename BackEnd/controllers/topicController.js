@@ -102,7 +102,7 @@ const getTopic = async (req,res)=>{
 
     if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
-    const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').exec();
+    const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').populate('quiz').exec();
     
 
     if(!topic){

@@ -21,12 +21,15 @@ const CreateLearningPathModal = ({open, handleClose}) => {
   const createLearningPath = async (data) => {
     const response = await post(url, data, auth?.accessToken);
 
-    //console.log(response.data);
+    console.log(response.data);
   };
 
   const {mutate} = useMutation(createLearningPath, {
+    
     onSuccess : ()=>{
       queryClient.invalidateQueries('learningPaths')
+      toast.success('Learning Path Created Successfully')
+
   
     }
   })
@@ -36,8 +39,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
     mutate(lp)
 
     handleClose();
-    toast.success('Learning Path Created Successfully')
-
+    
   }
   return (
     <Modal
@@ -140,7 +142,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
 
                 <div className="sm:col-span-2">
                   <label
-                    for="description"
+                    htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Description
