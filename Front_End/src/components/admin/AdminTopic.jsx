@@ -16,6 +16,7 @@ import { CircularProgress } from "@mui/material";
 import Alert from '@mui/material/Alert';
 import CreateTopicModal from "./subcomponents/CreateTopicModal";
 import { useNavigate } from "react-router-dom";
+import UpdateTopicModal from "./subcomponents/UpdateTopicModal";
 
 const AdminTopic = () => {
   const fetch = useFetch();
@@ -35,6 +36,12 @@ const AdminTopic = () => {
   const handleOpenDeleteModal = () => setOpenDeleteModal(true);
   const handleCloseDeleteModal = () => setOpenDeleteModal(false);
   const [deleteId, setDeleteId] = useState("");
+
+  
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const handleUpdateOpen = () => setOpenUpdate(true);
+  const handleUpdateClose = () => setOpenUpdate(false);
+  const [topicId, setTopicId] = useState("")
 
   const getTopics = async () => {
     const result = await fetch(url, auth.accessToken);
@@ -109,10 +116,14 @@ const AdminTopic = () => {
           >
             Create Topic
           </button>
+
+          
         </div>
 
         <CreateTopicModal open={open} handleClose={handleClose} />
        <DeleteDialogue open={openDeleteModal} handleClose={handleCloseDeleteModal} deleteId={deleteId} handleDelete={handleDelete} />
+        <UpdateTopicModal openUpdate={openUpdate} handleUpdateClose={handleUpdateClose} topicId={topicId} />
+
 
         <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-auto mb-4">
             {
@@ -191,12 +202,12 @@ const AdminTopic = () => {
                     </td>
                     <td className="px-6 py-4">{tp.index}</td>
                     <td className="px-6 py-4">{tp.description}</td>
-
+                    
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-4">
                         <button
                           x-data="{ tooltip: 'Delete' }"
-                          onClick={()=> {handleOpenDeleteModal(); setDeleteId(tp._id)}}
+                          onClick={(e)=> { e.stopPropagation(); handleOpenDeleteModal(); setDeleteId(tp._id)}}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +227,7 @@ const AdminTopic = () => {
                         </button>
                         <button
                           x-data="{ tooltip: 'Edite' }"
-                          href="#"
+                          onClick={(e)=>{ e.stopPropagation(); handleUpdateOpen(); setTopicId(tp._id)}}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

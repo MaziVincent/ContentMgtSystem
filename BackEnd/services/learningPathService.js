@@ -30,8 +30,11 @@ const updateLearningPath = async (data, res) => {
        if(!currentLearningPath.modules.some((md) => md.toString() === data.module._id )){
 
             currentLearningPath.modules.push(data?.module);
+
        }else{
+        
         return res.status(409).json({'message' : 'module already exist on learning path'})
+        
        }
     
 }
@@ -39,7 +42,7 @@ const updateLearningPath = async (data, res) => {
 
    const result = await currentLearningPath.save();
 
-  return res.status(200).json({"message" : " Learning Path Updated Successfully", result})
+  return {'message' : 'sucess', result};
 
 
 

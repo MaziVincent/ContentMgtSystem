@@ -1,19 +1,24 @@
 
+
 import usePost from "../../../hooks/usePost";
 import useAuth from "../../../hooks/useAuth";
 import baseUrl from "../../../shared/baseUrl";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useFetch from "../../../hooks/useFetch";
 import useUpdate from "../../../hooks/useUpdate";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useState, useEffect } from "react";
 
-
-const CreateLessonModal = ({ open, handleClose, topicId }) => {
+const UpdateTopicModal = ({ openUpdate, handleUpdateClose, topicId }) => {
+  const [modules, setModules] = useState();
+  const [topic, setTopic] = useState({});
   const post = usePost();
   const update = useUpdate();
   const { auth } = useAuth();
-  const url = `${baseUrl}lesson`;
+  const fetch = useFetch();
+  const url = `${baseUrl}topic`;
   const queryClient = useQueryClient();
 
   const {
@@ -22,39 +27,63 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
     formState: { errors },
   } = useForm({ mode: "all" });
 
-  
+  const getModules = async () => {
+
+    const result = await fetch(`${baseUrl}module`, auth.accessToken);
+
+   setModules(result.data);
+    
+  };
+
+  const getTopic = async () => {
+
+    const result = await fetch(`${url}/${topicId}`, auth.accessToken);
+
+   setTopic(result.data);
+
+   console.log(result.data)
+    
+  };
+ 
+
+  useEffect(()=>{
+
+    getTopic()
+    getModules()
+    
+
+  },[topicId])
   
 
-  const createLesson = async (lesson) => {
-      const data = {...lesson, topicId}
-      const response = await post(url, data, auth?.accessToken);
-      
-      console.log(response.data)
+  const updateTopic = async (data) => {
+      const response = await update(url, data, auth?.accessToken);
+      console.log(response.data);
 
   };
 
-  const {mutate} = useMutation(createLesson,{
+  const {mutate} = useMutation(updateTopic,{
 
     onSuccess: ()=>{
-      queryClient.invalidateQueries('topic')
+      queryClient.invalidateQueries('topics')
+      toast.success('Topic Updated Successfully');
     }
   })
 
-  const handleLessonCreate = (lesson) => {
+  const handleTopicUpdate = (topic) => {
+    const data = {...topic, _id:topicId }
+    mutate(data)
 
-    mutate(lesson)
-
-    handleClose();
-    toast.success('Lesson Created Successfully');
+    handleUpdateClose();
+    
 
   }
 
  // console.log(data)
   return (
     <Modal
-      open={open}
+      open={openUpdate}
       onClose={() => {
-        handleClose();
+        handleUpdateClose();
       }}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -62,7 +91,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
       {/* <!-- Main modal --> */}
       <div
         id="defaultModal"
-        className=" overflow-y-auto overflow-x-hidden absolute top-1/4   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
+        className=" overflow-y-auto overflow-x-hidden absolute top-3/6   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
       >
         <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
           {/* <!-- Modal content --> */}
@@ -70,12 +99,12 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
             {/* <!-- Modal header --> */}
             <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Create Lesson
+                Update Topic
               </h3>
               <button
                 type="button"
                 onClick={() => {
-                  handleClose();
+                  handleUpdateClose();
                 }}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-toggle="defaultModal"
@@ -97,50 +126,61 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
               </button>
             </div>
             {/* <!-- Modal body --> */}
-            <form onSubmit={handleSubmit(handleLessonCreate)}>
+            <form onSubmit={handleSubmit(handleTopicUpdate)}>
               <div className="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
                   <label
-                    htmlFor="title"
+                    htmlFor="name"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Title
+                    Name
                   </label>
                   <input
                     type="text"
-                    name="title"
-                    id="title"
-                    {...register("title", { required: true })}
+                    name="name"
+                    id="name"
+                    defaultValue={topic?.name}
+                    {...register("name", { required: true })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Type lesson title "
+                    placeholder="Type topic name"
                     required=""
                   />
-                  {errors.title && (
+                  {errors.name && (
                     <p className="text-sm text-red-400">
-                      title is required
+                      Name is required
                     </p>
                   )}
                 </div>
 
                 <div>
                   <label
-                    htmlFor="subTitle"
+                    htmlFor="category"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    subTitle
+                    Module
                   </label>
-                  <input
-                    type="text"
-                    name="subTitle"
-                    id="subTitle"
-                    {...register("subTitle")}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Type subTitle"
-                    required=""
-                  />
-                  {errors.subTitle && (
+                  <select
+                    id="category"
+                    {...register("module", { required: 'module is required' })}
+                    defaultValue={'default'}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  >
+                    <option
+                      disabled
+                      value='default'
+                    >
+                      Select Module
+                    </option>{
+                        modules?.map((md)=>(
+                            <option key={md._id} value={md._id}> {md.name}</option>
+                        ))
+                    }
+                  </select>
+
+                  {errors.module && (
                     <p className="text-sm text-red-400">
-                      subTitle is required
+                      {" "}
+                      {errors.learningPath?.message}{" "}
                     </p>
                   )}
                 </div>
@@ -155,6 +195,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     type="number"
                     name="index"
                     id="index"
+                    defaultValue={Number(topic?.index)}
                     {...register("index", { required: true })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type topic index"
@@ -169,21 +210,22 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
 
                 <div className="sm:col-span-2">
                   <label
-                    htmlFor="body"
+                    htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Body
+                    Description
                   </label>
                   <textarea
-                    id="body"
+                    id="description"
                     rows="4"
-                    {...register("body", { required: true })}
+                    defaultValue={topic?.description}
+                    {...register("description", { required: true })}
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Write lesson body here"
+                    placeholder="Write topic description here"
                   ></textarea>
-                  {errors.body && (
+                  {errors.description && (
                     <p className="text-sm text-red-400">
-                      lesson body is required 
+                      Description is required 
                     </p>
                   )}
                 </div>
@@ -204,7 +246,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                Create New Lesson
+                Update Topic
               </button>
             </form>
           </div>
@@ -214,4 +256,4 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
   );
 };
 
-export default CreateLessonModal;
+export default UpdateTopicModal;

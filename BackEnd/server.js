@@ -43,6 +43,8 @@ app.use('/learningPath', require('./routes/learningPath'));
 app.use('/module', require('./routes/module'));
 app.use('/topic', require('./routes/topic'));
 app.use('/lesson', require('./routes/lesson'));
+app.use('/student', require('./routes/student'));
+app.use('/quiz', require('./routes/quiz'));
 
 
  app.all('*',(req, res) =>{

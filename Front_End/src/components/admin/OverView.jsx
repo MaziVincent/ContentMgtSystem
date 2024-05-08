@@ -1,71 +1,36 @@
-import ClassOutlinedIcon from "@mui/icons-material/ClassOutlined";
-import ViewModuleOutlinedIcon from "@mui/icons-material/ViewModuleOutlined";
+import useAuth from "../../hooks/useAuth";
+import { useQuery } from "react-query";
 import { blue, brown, green, grey, purple, yellow } from "@mui/material/colors";
-import TopicOutlinedIcon from "@mui/icons-material/TopicOutlined";
-import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
+import baseUrl from "../../shared/baseUrl";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import useFetch from "../../hooks/useFetch";
 
 const Overview = () => {
+
+  const {auth} = useAuth();
+  const fetch = useFetch();
+  const url = `${baseUrl}student`
+
+  const getStudents = async () => {
+    const result = await fetch(url, auth.accessToken);
+
+    return result.data;
+  };
+
+  const { data, isError, isLoading, isSuccess } = useQuery(
+    ["students"],
+    getStudents,
+    { keepPreviousData: true, 
+        staleTime: 10000,
+        refetchOnMount:"always" }
+  );
+
+  console.log(data)
   return (
     <div className="w-full h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 mb-4">
-        <div className="shadow-lg p-4  border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64">
-          <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
-            <span>
-              {" "}
-              <PeopleAltOutlinedIcon
-                sx={{ color: brown[700] }}
-                fontSize="large"
-              />{" "}
-            </span>
-            <h3 className="text-center text-xl  font-bold "> 0 </h3>
-          </div>
-
-          <h3 className="text-xl text-center font-bold"> Students </h3>
-        </div>
-        <div className=" shadow-lg p-4  rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64">
-          <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
-            <span>
-              {" "}
-              <PeopleAltOutlinedIcon
-                sx={{ color: brown[700] }}
-                fontSize="large"
-              />{" "}
-            </span>
-            <h3 className="text-center text-xl  font-bold "> 0 </h3>
-          </div>
-
-          <h3 className="text-xl text-center font-bold"> Students </h3>
-        </div>
-        <div className="shadow-lg p-4   rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64">
-          <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
-            <span>
-              {" "}
-              <PeopleAltOutlinedIcon
-                sx={{ color: brown[700] }}
-                fontSize="large"
-              />{" "}
-            </span>
-            <h3 className="text-center text-xl  font-bold "> 0 </h3>
-          </div>
-
-          <h3 className="text-xl text-center font-bold"> Students </h3>
-        </div>
-        <div className="shadow-lg p-4   rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64">
-          <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
-            <span>
-              {" "}
-              <PeopleAltOutlinedIcon
-                sx={{ color: brown[700] }}
-                fontSize="large"
-              />{" "}
-            </span>
-            <h3 className="text-center text-xl  font-bold "> 0 </h3>
-          </div>
-
-          <h3 className="text-xl text-center font-bold"> Students </h3>
-        </div>
+       
         <div className="shadow-lg p-4   rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64">
           <div className="flex justify-between md:flex-col md:justify-center gap-6 items-center w-full border-b-2 pb-4">
             <span>

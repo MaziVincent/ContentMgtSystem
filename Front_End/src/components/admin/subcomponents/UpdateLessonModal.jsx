@@ -1,18 +1,24 @@
 
+
+
 import usePost from "../../../hooks/usePost";
 import useAuth from "../../../hooks/useAuth";
 import baseUrl from "../../../shared/baseUrl";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useFetch from "../../../hooks/useFetch";
 import useUpdate from "../../../hooks/useUpdate";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useState, useEffect } from "react";
 
-
-const CreateLessonModal = ({ open, handleClose, topicId }) => {
+const UpdateLessonModal = ({ open, handleClose, lessonId }) => {
+  
+  const [lesson, setLesson] = useState({});
   const post = usePost();
   const update = useUpdate();
   const { auth } = useAuth();
+  const fetch = useFetch();
   const url = `${baseUrl}lesson`;
   const queryClient = useQueryClient();
 
@@ -23,29 +29,47 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
   } = useForm({ mode: "all" });
 
   
+
+  const getLesson = async () => {
+
+    const result = await fetch(`${url}/${lessonId}`, auth.accessToken);
+
+   setLesson(result.data);
+
+   console.log(result.data)
+    
+  };
+ 
+
+  useEffect(()=>{
+
+    getLesson()
+    
+
+  },[lessonId])
   
 
-  const createLesson = async (lesson) => {
-      const data = {...lesson, topicId}
-      const response = await post(url, data, auth?.accessToken);
-      
-      console.log(response.data)
+  const updateLesson = async (data) => {
+      const response = await update(url, data, auth?.accessToken);
+      console.log(response.data);
 
   };
 
-  const {mutate} = useMutation(createLesson,{
+  const {mutate} = useMutation(updateLesson,{
 
     onSuccess: ()=>{
       queryClient.invalidateQueries('topic')
+      toast.success('Lesson Updated Successfully');
     }
   })
 
-  const handleLessonCreate = (lesson) => {
-
-    mutate(lesson)
+  const handleLessonUpdate = (lesson) => {
+    const data = {...lesson, _id:lessonId }
+    console.log(data)
+    mutate(data)
 
     handleClose();
-    toast.success('Lesson Created Successfully');
+    
 
   }
 
@@ -62,7 +86,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
       {/* <!-- Main modal --> */}
       <div
         id="defaultModal"
-        className=" overflow-y-auto overflow-x-hidden absolute top-1/4   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
+        className=" overflow-y-auto overflow-x-hidden absolute top-3/6   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
       >
         <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
           {/* <!-- Modal content --> */}
@@ -70,7 +94,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
             {/* <!-- Modal header --> */}
             <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Create Lesson
+                Update Lesson
               </h3>
               <button
                 type="button"
@@ -97,7 +121,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
               </button>
             </div>
             {/* <!-- Modal body --> */}
-            <form onSubmit={handleSubmit(handleLessonCreate)}>
+            <form onSubmit={handleSubmit(handleLessonUpdate)}>
               <div className="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
                   <label
@@ -110,6 +134,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     type="text"
                     name="title"
                     id="title"
+                    defaultValue={lesson?.title}
                     {...register("title", { required: true })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type lesson title "
@@ -133,6 +158,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     type="text"
                     name="subTitle"
                     id="subTitle"
+                    defaultValue={lesson?.subTitle}
                     {...register("subTitle")}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type subTitle"
@@ -155,6 +181,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     type="number"
                     name="index"
                     id="index"
+                    defaultValue={ Number(lesson?.index)}
                     {...register("index", { required: true })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Type topic index"
@@ -177,6 +204,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                   <textarea
                     id="body"
                     rows="4"
+                    defaultValue={lesson?.body}
                     {...register("body", { required: true })}
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Write lesson body here"
@@ -204,7 +232,7 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                Create New Lesson
+                Update Lesson
               </button>
             </form>
           </div>
@@ -214,4 +242,4 @@ const CreateLessonModal = ({ open, handleClose, topicId }) => {
   );
 };
 
-export default CreateLessonModal;
+export default UpdateLessonModal;

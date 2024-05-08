@@ -20,6 +20,7 @@ import AdminModule from "./components/admin/AdminModule";
 import AdminTopic from "./components/admin/AdminTopic";
 import AdminTopicDetails from "./components/admin/AdminTopicDetails";
 import PersistLogin from "./shared/PersistLogin";
+import TopicComponent from "./components/students/TopicComponent";
 
 function App() {
   const queryClient = new QueryClient();
@@ -89,6 +90,11 @@ function App() {
                   path="/start"
                   element={<Start />}
                 />
+
+                <Route path="/topic/:id" element={<TopicComponent/>} />
+                
+
+               
               </Route>
             </Route>
           </Route>

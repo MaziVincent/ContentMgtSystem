@@ -2,6 +2,7 @@ const Module = require("../models/Module");
 const mongoose = require("mongoose")
 const {updateLearningPath} = require("../services/learningPathService");
 const LearningPath = require("../models/LearningPath");
+const moduleService = require("../services/moduleService")
 
 const getAllModules = async (req, res) => {
   const modules = await Module.find();
@@ -40,33 +41,21 @@ const updateModule = async (req, res) => {
   if (!req?.body._id)
     return res.status(400).json({ message: " Module ID is required" });
 
-  const currentModule = await Module.findOne({ _id: req.body?._id }).exec();
+  const response = await moduleService.updateModule(req.body, res);
 
-  if (!currentModule) {
-    return res.status(204).json({ message: `Module not found` });
-  }
-  if (req.body?.name) currentModule.name = req.body.name;
-  if (req.body?.description) currentModule.description = req.body.description;
+  if(response.result){
 
-  if (req.body?.topics) {
-    currentModule.topics = req.body.topics;
-  }
+    res.status(200).json({ message: " Module Updated Successfully", response });
+    
+}else{
 
-  if (req.body?.topic) {
-    if (!currentModule.topics.some((topic) => topic._id === req.body?.topic._id) ) 
-    {
-      currentModule.topics.push(req.body.topic);
-    } else {
-      return res
-        .status(409)
-        .json({ message: "module already exist on learning path" });
-    }
+  return;
+}
+
   }
 
-  const result = await currentModule.save();
 
-  res.status(200).json({ message: " Module Updated Successfully", result });
-};
+  
 
 const deleteModule = async (req, res) => {
   if (!req.params?.id)
@@ -101,12 +90,14 @@ const getModule = async (req, res) => {
   if (!req.params?.id)
     return res.status(400).json({ message: " Module ID is required" });
 
-  const module = await Module.findOne({ _id: req.params?.id }).exec();
+  const module = await Module.findOne({ _id: req.params?.id }).populate('topics').exec();
 
   if (!module) {
+
     return res
       .status(400)
       .json({ message: `Module with id ${req.params.id} not found` });
+      
   }
 
   res.status(200).json(module);

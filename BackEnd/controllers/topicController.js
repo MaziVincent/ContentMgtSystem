@@ -1,6 +1,7 @@
 
 
 const Topic = require('../models/Topic');
+const {updateModule } = require('../services/moduleService')
 
 
 const getAllTopics = async (req,res)=>{
@@ -13,7 +14,7 @@ const getAllTopics = async (req,res)=>{
 
 const createTopic = async (req, res)=>{
    
-    const {name, description, index } = req.body
+    const {name, description, index, module } = req.body
 
     if(!name || !description || !index ){
 
@@ -22,13 +23,17 @@ const createTopic = async (req, res)=>{
 
     try{
 
-        const result = await Topic.create({
+        const topic = await Topic.create({
             name:name,
             description : description,
             index: index
         });
 
-        res.status(201).json({'message' : 'Topic  created successfully', result});  //created
+        const data = {topic, _id:module}
+        const response = await updateModule(data, res );
+        console.log(response)
+
+        res.status(201).json({'message' : 'Topic  created successfully', topic});  //created
 
     }catch(err){
 
@@ -57,6 +62,7 @@ const updateTopic = async (req, res)=>{
     if(req.body?.index) currentTopic.index = req.body.index
 
     if(req.body?.lesson){
+
         if(!currentTopic.lessons.some(lesson => lesson._id === req.body?.lesson._id)){
 
             currentTopic.lessons.push(req.body.lesson);
@@ -65,7 +71,13 @@ const updateTopic = async (req, res)=>{
 
    const result = await currentTopic.save();
 
-   res.status(200).json({"message" : " Module Updated Successfully", result})
+   console.log(result)
+
+   const data = {topic:result, _id:req.body.module}
+   const response = await updateModule(data, res );
+   
+
+   res.status(200).json({"message" : " Topic Updated Successfully", result})
 
 }
 
@@ -90,7 +102,7 @@ const getTopic = async (req,res)=>{
 
     if(!req.params?.id) return res.status(400).json({"message" : " Module ID is required"});
 
-    const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').exec();
+    const topic = await Topic.findOne({_id:req.params?.id}).populate('lessons').populate('quiz').exec();
     
 
     if(!topic){

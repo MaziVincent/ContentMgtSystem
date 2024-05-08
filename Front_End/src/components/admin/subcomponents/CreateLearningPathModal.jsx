@@ -21,12 +21,15 @@ const CreateLearningPathModal = ({open, handleClose}) => {
   const createLearningPath = async (data) => {
     const response = await post(url, data, auth?.accessToken);
 
-    //console.log(response.data);
+    console.log(response.data);
   };
 
   const {mutate} = useMutation(createLearningPath, {
+    
     onSuccess : ()=>{
       queryClient.invalidateQueries('learningPaths')
+      toast.success('Learning Path Created Successfully')
+
   
     }
   })
@@ -36,8 +39,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
     mutate(lp)
 
     handleClose();
-    toast.success('Learning Path Created Successfully')
-
+    
   }
   return (
     <Modal
@@ -49,7 +51,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
       {/* <!-- Main modal --> */}
       <div
         id="defaultModal"
-        className=" overflow-y-auto overflow-x-hidden absolute top-1/4   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
+        className=" overflow-y-auto overflow-x-hidden absolute top-3/6   right-1/4 z-50 justify-center items-center w-2/4  h-modal md:h-full"
       >
         <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
           {/* <!-- Modal content --> */}
@@ -140,7 +142,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
 
                 <div className="sm:col-span-2">
                   <label
-                    for="description"
+                    htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     Description
@@ -156,7 +158,7 @@ const CreateLearningPathModal = ({open, handleClose}) => {
               </div>
               <button
                 type="submit"
-                className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="text-gray-600 inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-100 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 <svg
                   className="mr-1 -ml-1 w-6 h-6"

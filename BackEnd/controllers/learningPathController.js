@@ -48,9 +48,16 @@ const updateLearningPath = async (req, res)=>{
     
     if(!req?.body._id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const response = learningPathService.updateLearningPath(req.body, res);
+    const response = await learningPathService.updateLearningPath(req.body, res);
 
-    return response;
+    if(response.result){
+
+        res.status(200).json({"message" : " Learning Path Updated Successfully", response})
+
+    }else{
+        return ;
+    }
+   
 }
 
 const deleteLearningPath = async (req,res)=>{
@@ -64,8 +71,8 @@ const deleteLearningPath = async (req,res)=>{
         return res.status(204).json({'message':`learning Path with ID ${req.params?.id} not found`});
 
     }
-
     const result = await currentLearningPath.deleteOne({_id : req.params?.id});
+    
 
     res.status(200).json(result);
 }
@@ -74,15 +81,19 @@ const getLearningPath = async (req,res)=>{
 
     if(!req.params?.id) return res.status(400).json({"message" : " Learning Path ID is required"});
 
-    const learningPath = await LearningPath.findOne({_id:req.params?.id}).populate('modules').exec();
+    const learningPath = await LearningPath.findOne({_id:req.params?.id}).populate({path:'modules', populate:{path:'topics'}}).exec();
     
 
     if(!learningPath){
 
+
         return res.status(400).json({'message':`Learning Path with id ${req.params.id} not found`});
     }
 
+
+
     res.status(200).json(learningPath);
+
 }
 
 
