@@ -8,7 +8,7 @@ const Users = require('../models/User');
 
 const getAllStudents = async (req,res)=>{
 
-    const students = await Users.find({roles:{Student : 'Student'}}).exec();
+    const students = await Users.find({'roles.Student' : {$exists:true}}).exec();
     if(!students) return res.status(400).json({"message" : "No Student found"});
 
     res.status(200).json(students)

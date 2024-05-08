@@ -54,24 +54,21 @@ function App() {
               path="/signup"
               element={<SignUp />}
             />
-             <Route
-                  index
-                  element={<Body />}
-                />
+            <Route
+              index
+              element={<Body />}
+            />
 
             {/* Catch all */}
 
             <Route
-            path="*"
-            element={<Page404 />}
-          />
-          <Route
-            path="unauthorized"
-            element={<UnAuthorised />}
-          />
-
-
-
+              path="*"
+              element={<Page404 />}
+            />
+            <Route
+              path="unauthorized"
+              element={<UnAuthorised />}
+            />
 
             {/* Protected Routes  */}
             <Route element={<PersistLogin />}>
@@ -92,14 +89,12 @@ function App() {
                   path="/start"
                   element={<Start />}
                 />
-
-               
               </Route>
             </Route>
-            </Route>
+          </Route>
 
-            {/* Admin Routes  */}
-            <Route element={<PersistLogin />}>
+          {/* Admin Routes  */}
+          <Route element={<PersistLogin />}>
             <Route
               element={<RequireAuth allowedRoles={[roles.admin, roles.user]} />}
             >
@@ -129,12 +124,8 @@ function App() {
                 />
               </Route>
             </Route>
-            </Route>
-          </Routes>
-          
-
-          
-        
+          </Route>
+        </Routes>
       </>
     </QueryClientProvider>
   );
